@@ -36,6 +36,7 @@ def train(args):
     if not os.path.exists(args.data_dir):
         os.makedirs(args.data_dir)
     dataset_splits = datasets.SNLI.splits(
+        train='dev.jsonl',
         text_field=text_field, label_field=label_field, root=args.data_dir)
     text_field.build_vocab(*dataset_splits, vectors=args.pretrained)
     label_field.build_vocab(*dataset_splits)
@@ -117,7 +118,6 @@ def train(args):
             add_scalar_summary(
                 summary_writer=valid_summary_writer,
                 name='accuracy', value=valid_accuracy, step=iter_count)
-            scheduler.step()
             progress = train_loader.epoch
             logging.info(f'Epoch {progress:.2f}: '
                          f'valid loss = {valid_loss:.4f}, '
@@ -128,6 +128,8 @@ def train(args):
             model_path = os.path.join(save_dir, model_filename)
             torch.save(model.state_dict(), model_path)
             logging.info(f'Saved the model to: {model_path}')
+            scheduler.step()
+            logging.info(f'Update learning rate to: {scheduler.get_lr()[0]}')
 
             if progress > args.max_epoch:
                 break
