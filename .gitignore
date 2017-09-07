@@ -1,0 +1,5 @@
+.idea
+*.pyc
+data
+trained
+.vector_cache
