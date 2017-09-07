@@ -9,10 +9,6 @@ from torchtext import data, datasets
 from models import NLIModel
 
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s %(levelname)-8s %(message)s')
-
-
 def evaluate(args):
     lstm_hidden_dims = [int(d) for d in args.lstm_hidden_dims.split(',')]
 
