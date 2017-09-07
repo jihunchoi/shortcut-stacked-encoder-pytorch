@@ -36,7 +36,6 @@ def train(args):
     if not os.path.exists(args.data_dir):
         os.makedirs(args.data_dir)
     dataset_splits = datasets.SNLI.splits(
-        train='dev.jsonl',
         text_field=text_field, label_field=label_field, root=args.data_dir)
     text_field.build_vocab(*dataset_splits, vectors=args.pretrained)
     label_field.build_vocab(*dataset_splits)
